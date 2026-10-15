@@ -48,3 +48,5 @@ A session runs one agent in its own sandbox on a new branch, named for the sessi
 The same files run on the managed cloud and on your own machines. Try Kortix at [kortix.com](https://kortix.com), read the [Kortix docs](https://kortix.com/docs), or browse [Kortix on GitHub](https://github.com/kortix-ai/suna).
 
 This example supports the comparison at [lindyalternative.com](https://lindyalternative.com). The page that sorts the options by what you own is [lindyalternative.com/lindy-alternatives](https://lindyalternative.com/lindy-alternatives).
+
+The jobs this example takes over are set out on [lindyalternative.com/lindy-use-cases](https://lindyalternative.com/lindy-use-cases), and the cost comparison is on [is Lindy worth it](https://lindyalternative.com/is-lindy-worth-it).
