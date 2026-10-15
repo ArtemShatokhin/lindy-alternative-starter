@@ -1,0 +1,54 @@
+# yaml-language-server: $schema=https://kortix.com/schema/kortix.v2.schema.json
+# Kortix, the open-source AI Operating System. This manifest declares one agent,
+# its connectors, and one cron trigger. Behavior lives in agents/inbox-triage.md.
+kortix_version: 2
+default_agent: inbox-triage
+
+project:
+  name: inbox-triage-starter
+  description: An agent that triages a shared inbox and lands its work as a change request.
+
+agents:
+  inbox-triage:
+    file: agents/inbox-triage.md
+    connectors: [gmail, linear]
+    # No project.gitops.merge here: the agent opens a change request, a person merges it.
+    kortix_permissions:
+      - project.session.read
+      - project.gitops.push
+
+connectors:
+  - slug: gmail
+    name: Gmail
+    provider: composio
+    app: gmail
+    policies:
+      - match: "get_*"
+        action: always_run
+      - match: "fetch_*"
+        action: always_run
+      - match: "delete_*"
+        action: block
+      - match: "*"
+        action: require_approval
+
+  - slug: linear
+    name: Linear
+    provider: composio
+    app: linear
+    policies:
+      - match: "*"
+        action: require_approval
+
+triggers:
+  - slug: inbox-triage
+    name: Triage the shared inbox
+    type: cron
+    agent: inbox-triage
+    cron: "0 */30 8-18 * * 1-5"
+    timezone: UTC
+    session_mode: fresh
+    prompt: >-
+      Triage new mail in the shared inbox. Classify each thread, draft a reply where one is
+      needed, file a follow-up for every bug report or billing issue, and open a change request
+      with the triage summary for a person to review.
